@@ -1,32 +1,31 @@
-import React, { Component, Container } from 'react'
+import React, { Component } from 'react';
 import { Table } from 'reactstrap';
-import axios from 'axios'
+import axios from 'axios';
 
 export default class PurchasedItems extends Component {
-    constructor(props) {
-        super(props);
 
-        this.state = {
-            items = []
-        }
+    onClick = () => {
+      axios.get('/api/items')
+        .then(items => this.listItems(items))
+        .catch(err => console.log(err));
     }
-  render() {
-    axios.get('/api/items')
-    .then(items => {
-        var items = JSON.parse(items);
-        items = this.state.items;
-    })
 
-    const listItems = this.state.items.map((item) => 
-        <tr>
+    listItems = () => {
+      this.state.items.map((item) => {
+        return (
+          <tr>
             <td>{item.amount}</td>
             <td>{item.type_name}</td>
             <td>{item.date}</td>
         </tr>
-    );
+        )
+      }
+    )};
+
+  render() {
     return (
-      <Container>
-        
+      <div>
+        <button onClick={this.onClick}>Button</button>
         <Table>
             <thead>
             <tr>
@@ -35,9 +34,8 @@ export default class PurchasedItems extends Component {
                 <th>Date</th>
             </tr>
             </thead>
-            <tbody>{listItems}</tbody>
         </Table>
-      </Container>
+      </div>
     )
   }
 }
