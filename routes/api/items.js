@@ -18,11 +18,7 @@ router.get("/:id", (req, res) => {
 
 // Post a new item
 router.post("/", (req, res) => {
-    const newItem = new Item({
-        description: req.body.description,
-        amount: req.body.amount,
-        type_name: req.body.type_name
-    });
+    const newItem = new Item(req.body);
 
     newItem.save().then(item => res.json(item));
 });

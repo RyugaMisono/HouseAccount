@@ -22,12 +22,11 @@ export default class AddItem extends React.Component {
       description: ''
     };
 
-    this.toggle = this.toggle.bind(this);
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
 
-  toggle(){
+  toggle =() => {
     this.setState(prevState => ({
       modal: !prevState.modal
     }));
@@ -53,17 +52,22 @@ export default class AddItem extends React.Component {
         description: this.state.description
       }
 
+      console.log(newItem);
+
       axios.post('/api/items', newItem)
-            .then(res => console.log(res.data));
+            .then(res => console.log(res.data))
+            .catch(err => console.log(err))
   }
 
   render() {
     return (
       <div>
         <Button color="primary" onClick={this.toggle}>Add Item</Button>
+        
         <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
+        <Form  onSubmit={this.onSubmit}>
           <ModalHeader toggle={this.toggle}>Modal title</ModalHeader>
-          <Form>
+          
             <ModalBody>  
                 <FormGroup>
                     <Label for="amount">Amount</Label>
@@ -91,11 +95,12 @@ export default class AddItem extends React.Component {
                 </FormGroup>  
                 </ModalBody>
             <ModalFooter>
-                <Button color="dark" onSubmit={this.onSubmit}>Submit</Button>  
+                <Button color="dark">Submit</Button>  
                 <Button color="danger" onClick={this.toggle}>Cancel</Button>
             </ModalFooter>
-          </Form>
+            </Form>
         </Modal>
+        
       </div>
     );
   }

@@ -13,7 +13,7 @@ export default class PurchasedItems extends Component {
 
     componentDidMount() {
       axios.get('/api/items')
-        .then(items => this.setState({ renderedItems: items }))
+        .then(items => this.setState({ renderedItems: items.data }))
         .catch(err => console.log(err));
     }
 
@@ -30,11 +30,15 @@ export default class PurchasedItems extends Component {
             </thead>
             
               <tbody>
-              <tr>
-                <td>{this.state.renderedItems.amount}</td>
-                <td>{this.state.renderedItems.type_name}</td>
-                <td>{this.state.renderedItems.description}</td>
-              </tr>
+              
+                {this.state.renderedItems.map(item => (
+                  <tr key={item._id}>
+                    <td>{item.amount}</td>
+                    <td>{item.type_name}</td>
+                    <td>{item.date}</td>
+                  </tr>
+                ))}
+              
               </tbody>
             
         </Table>
