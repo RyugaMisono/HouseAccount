@@ -3,29 +3,23 @@ import { Table } from 'reactstrap';
 import axios from 'axios';
 
 export default class PurchasedItems extends Component {
+  constructor(){
+    super()
 
-    onClick = () => {
+    this.state = {
+      renderedItems: []
+    }
+  }
+
+    componentDidMount() {
       axios.get('/api/items')
-        .then(items => this.listItems(items))
+        .then(items => this.setState({ renderedItems: items }))
         .catch(err => console.log(err));
     }
-
-    listItems = () => {
-      this.state.items.map((item) => {
-        return (
-          <tr>
-            <td>{item.amount}</td>
-            <td>{item.type_name}</td>
-            <td>{item.date}</td>
-        </tr>
-        )
-      }
-    )};
 
   render() {
     return (
       <div>
-        <button onClick={this.onClick}>Button</button>
         <Table>
             <thead>
             <tr>
@@ -34,6 +28,15 @@ export default class PurchasedItems extends Component {
                 <th>Date</th>
             </tr>
             </thead>
+            
+              <tbody>
+              <tr>
+                <td>{this.state.renderedItems.amount}</td>
+                <td>{this.state.renderedItems.type_name}</td>
+                <td>{this.state.renderedItems.description}</td>
+              </tr>
+              </tbody>
+            
         </Table>
       </div>
     )
