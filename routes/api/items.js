@@ -1,21 +1,55 @@
 const express = require("express");
 const router = express.Router();
 
-const itemController = require("../../controllers/handleItem");
+const Item = require("../../schema.js")
 
 // Get all items
-router.get("/", itemController.getAllItems);
+router.get("/", (req, res) => {
+    Item.find()
+    .sort({ date: 1 })
+    .then(items => res.json(items))
+});
 
 // Get a certain item
-router.get("/:id", itemController.getCertainItem);
+router.get("/:id", (req, res) => {
+    Item.findById(req.params.id)
+        .then(item => res.json(item))
+});
 
 // Post a new item
-router.post("/", itemController.postNewItem);
+router.post("/", (req, res) => {
+    const newItem = new Item({
+        description: req.body.description,
+        amount: req.body.amount,
+        type_name: req.body.type_name
+    });
+
+    newItem.save().then(item => res.json(item));
+});
 
 // Update an item
-router.post("/:id", itemController.updateItem);
+router.post("/:id", (req, res) => {
+    Item.findById(req.params.id)
+        .then(item => {
+            item.description = req.body.description;
+            item.amount = req.body.amount;
+            item.type_name = req.body.type_name;
+
+            item.save().then(item => {
+                res.json(item);
+            })
+            .catch(err => {
+                res.status(400).send("Update failed");
+            });
+        });
+
+});
 
 // Delete an item
-router.delete("/:id", itemController.deleteItem);
+router.delete("/:id", (req, res) => {
+    Item.findById(req.params.id)
+        .then(item => item.remove().then(() => res.json({success: true})))
+        .catch(err => res.status(404).send("Delete failed"));
+});
 
 module.exports = router;
