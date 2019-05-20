@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Table, Button } from 'reactstrap';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Table } from 'reactstrap';
 import axios from 'axios';
 
 export default class PurchasedItems extends Component {
@@ -7,7 +7,8 @@ export default class PurchasedItems extends Component {
     super()
 
     this.state = {
-      renderedItems: []
+      renderedItems: [],
+      modal: false
     }
   }
 
@@ -16,6 +17,14 @@ export default class PurchasedItems extends Component {
         .then(items => this.setState({ renderedItems: items.data }))
         .catch(err => console.log(err));
     }
+
+    // Toggle Modal
+    toggle = () => {
+      this.setState(prevState => ({
+        modal: !prevState.modal
+      }));
+    }
+  
 
     // // Fetch Items
     // getItems = () => {axios.get('/api/items')
@@ -27,11 +36,22 @@ export default class PurchasedItems extends Component {
     onClick = (e) => {
       axios.delete('/api/items/' + e.target.value)
         .catch(err => console.log(err))
+
+      this.toggle();
     }
 
   render() {
     return (
       <div>
+        <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
+          <ModalHeader toggle={this.toggle}>Delete item</ModalHeader>
+          <ModalBody>
+            You successfully deleted it
+          </ModalBody>
+          <ModalFooter>
+            <Button color="danger" onClick={this.toggle} href="/">Close</Button>
+          </ModalFooter>
+        </Modal>
         <Table>
             <thead>
             <tr>
