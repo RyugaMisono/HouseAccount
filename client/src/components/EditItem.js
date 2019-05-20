@@ -7,6 +7,8 @@ import {
     ModalFooter,
     Form,
     FormGroup,
+    FormFeedback,
+    FormText,
     Label,
     Input,
  } from 'reactstrap';
@@ -17,6 +19,9 @@ export default class EditItem extends React.Component {
     super(props);
     this.state = {
       modal: false,
+      valid: false,
+      invalid: false,
+      disabled: true,
       amount: this.props.item.amount,
       type_name: this.props.item.type_name,
       description: this.props.item.description,
@@ -24,6 +29,7 @@ export default class EditItem extends React.Component {
     };
 
     this.onChange = this.onChange.bind(this);
+    this.onAmountChange = this.onAmountChange.bind(this);
     this.toggle = this.toggle.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
@@ -42,6 +48,27 @@ export default class EditItem extends React.Component {
         })
     }
   }
+
+  onAmountChange(e){
+    const { name, value } = e.target;
+    if(e){
+    this.setState({
+        [name]: value
+      })
+    }
+
+    if(value === "0" || ""){
+      this.setState({
+        invalid: true,
+        disabled: true
+      })
+    } else {
+      this.setState({
+        invalid: false,
+        disabled: false
+      })
+    }
+}
 
   onSubmit(){
       const updatedItem = {
@@ -78,10 +105,12 @@ export default class EditItem extends React.Component {
                         value={this.state.amount}
                         id="amount"
                         placeholder="Type an amount"
-                        onChange={this.onChange}
+                        onChange={this.onAmountChange}
                         valid={this.state.valid}
                         invalid={this.state.invalid}
                     />
+                    <FormFeedback>Type Proper Number!!</FormFeedback>
+                    <FormText>only Numbers Accepted</FormText>
                 </FormGroup>
                 <FormGroup>
                     <Label for="types">Select Type</Label>
@@ -91,8 +120,6 @@ export default class EditItem extends React.Component {
                         id="type_name"
                         value={this.state.type_name}
                         onChange={this.onChange}
-                        valid={this.state.valid}
-                        invalid={this.state.invalid}
                     >
                         <option></option>
                         <option>foods</option>
@@ -111,13 +138,11 @@ export default class EditItem extends React.Component {
                         id="description"
                         value={this.state.description}
                         onChange={this.onChange}
-                        valid={this.state.valid}
-                        invalid={this.state.invalid}
                     />
                 </FormGroup>  
                 </ModalBody>
             <ModalFooter>
-                <Button color="dark" type="submit">Submit</Button>  
+                <Button color="dark" type="submit" disabled={this.state.disabled}>Submit</Button>  
                 <Button color="danger" onClick={this.toggle}>Cancel</Button>
             </ModalFooter>
             </Form>
