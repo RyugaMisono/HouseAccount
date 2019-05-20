@@ -17,29 +17,34 @@ export default class AddItem extends React.Component {
     super(props);
     this.state = {
       modal: false,
-      amount: 0,
+      valid: false,
+      invalid: false,
+      amount: '',
       type_name: '',
       description: ''
     };
 
     this.onChange = this.onChange.bind(this);
+    this.toggle = this.toggle.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
 
-  toggle =() => {
+  toggle(){
     this.setState(prevState => ({
       modal: !prevState.modal
     }));
   }
 
   onChange(e){
-      if(e.target.id === 'amount'){
-        var intAmount = parseInt(e.target.value);
-        this.setState = ({ amount: intAmount })
-      } else if(e.target.id === 'types'){
-        this.setState = ({ type_name: e.target.value })
-      } else if(e.target.id === 'description'){
-        this.setState = ({ description: e.target.value })
+      const { name, value } = e.target;
+      this.setState({
+          [name]: value
+        })
+
+      if(value === null || "" || 0){
+          this.setState = ({ invalid: true })
+      } else {
+        this.setState = ({ valid: true })
       }
   }
 
@@ -52,10 +57,9 @@ export default class AddItem extends React.Component {
         description: this.state.description
       }
 
-      console.log(newItem);
-
       axios.post('/api/items', newItem)
             .then(res => console.log(res.data))
+            .then(r => this.setState({ modal: false }))
             .catch(err => console.log(err))
   }
 
@@ -65,33 +69,52 @@ export default class AddItem extends React.Component {
         <Button color="primary" onClick={this.toggle}>Add Item</Button>
         
         <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-        <Form  onSubmit={this.onSubmit}>
           <ModalHeader toggle={this.toggle}>Modal title</ModalHeader>
-          
+          <Form  onSubmit={this.onSubmit}>
             <ModalBody>  
                 <FormGroup>
                     <Label for="amount">Amount</Label>
                     <Input
                         type="money"
                         name="amount"
+                        value={this.state.amount}
                         id="amount"
                         placeholder="Type an amount"
                         onChange={this.onChange}
+                        valid={this.state.valid}
+                        invalid={this.state.invalid}
                     />
                 </FormGroup>
                 <FormGroup>
                     <Label for="types">Select Type</Label>
-                    <Input type="select" name="types" id="types">
+                    <Input
+                        type="select"
+                        name="type_name"
+                        id="type_name"
+                        value={this.state.type_name}
+                        onChange={this.onChange}
+                        valid={this.state.valid}
+                        invalid={this.state.invalid}
+                    >
                         <option>foods</option>
                         <option>books</option>
                         <option>daiily goods</option>
                         <option>clothings</option>
                         <option>medical</option>
+                        <option>others</option>
                     </Input>
                 </FormGroup>
                 <FormGroup>
                     <Label for="discription">Description</Label>
-                    <Input type="textarea" name="description" id="description" />
+                    <Input
+                        type="textarea"
+                        name="description"
+                        id="description"
+                        value={this.state.description}
+                        onChange={this.onChange}
+                        valid={this.state.valid}
+                        invalid={this.state.invalid}
+                    />
                 </FormGroup>  
                 </ModalBody>
             <ModalFooter>
