@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Table } from 'reactstrap';
 import axios from 'axios';
 
+import EditItem from './EditItem'
+
 export default class PurchasedItems extends Component {
   constructor(){
     super()
@@ -24,13 +26,6 @@ export default class PurchasedItems extends Component {
         modal: !prevState.modal
       }));
     }
-  
-
-    // // Fetch Items
-    // getItems = () => {axios.get('/api/items')
-    //     .then(items => this.setState({ renderedItems: items.data }))
-    //     .catch(err => console.log(err));
-    // }
 
     // Delete Item
     onClick = (e) => {
@@ -52,6 +47,8 @@ export default class PurchasedItems extends Component {
             <Button color="danger" onClick={this.toggle} href="/">Close</Button>
           </ModalFooter>
         </Modal>
+
+        
         <Table>
             <thead>
             <tr>
@@ -70,7 +67,11 @@ export default class PurchasedItems extends Component {
                     <td>{item.amount} yen</td>
                     <td>{item.type_name}</td>
                     <td>{item.date}</td>
-                    <td><Button color="info" href={"/detail" + item.id}>Detail</Button></td>
+                    <td>
+                      <EditItem 
+                        item={item}
+                      />
+                    </td>
                     <td><Button color="danger" onClick={this.onClick} value={item._id}>Delete</Button></td>
                   </tr>
                 ))}

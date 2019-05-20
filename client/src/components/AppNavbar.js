@@ -31,7 +31,7 @@ export default class AppNavbar extends React.Component {
     return (
       <div>
         <Navbar color="white" expand="md">
-          <NavbarBrand href="/" style={{color:"#000"}}>HouseholdAccount</NavbarBrand>
+          <NavbarBrand href="/" style={{color:"#000"}}>HouseholdAccount Manager</NavbarBrand>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>

@@ -95,6 +95,7 @@ export default class AddItem extends React.Component {
                         valid={this.state.valid}
                         invalid={this.state.invalid}
                     >
+                        <option></option>
                         <option>foods</option>
                         <option>books</option>
                         <option>daiily goods</option>
