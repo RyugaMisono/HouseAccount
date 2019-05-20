@@ -9,6 +9,7 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem } from 'reactstrap';
+  import { BrowserRouter as Router,Link } from "react-router-dom";
 
 
 export default class AppNavbar extends React.Component {
@@ -40,7 +41,7 @@ export default class AppNavbar extends React.Component {
                 </DropdownToggle>
                 <DropdownMenu right>
                   <DropdownItem>
-                    Option 1
+                    <Router><Link to="/monthly">Monthly</Link></Router>
                   </DropdownItem>
                   <DropdownItem>
                     Option 2

@@ -5,18 +5,22 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import AppNavbar from "./components/AppNavbar"
 import PurchasedItems from "./components/PurchasedItems"
 import AddItem from './components/AddItem'
-import EditItems from './components/EditItem'
+import EditItem from './components/EditItem'
+import MonthlyItems from './components/MonthlyItems';
 
 function App() {
   return (
     <div className="App">
-      <AppNavbar/>
-      <AddItem/>
-      <PurchasedItems/>
+      <AppNavbar />
+      <div style={{ width: "80%", margin: "10px auto" }}>
+        <AddItem />
+        <PurchasedItems />
+      </div>
 
       <Router>
         <Switch>
-          <Route path="detail/:id" component={EditItems}/>
+          <Route path="/detail/:id" component={EditItem}/>
+          <Route path="/monthly" component={MonthlyItems}/>
         </Switch>
       </Router>
     </div>

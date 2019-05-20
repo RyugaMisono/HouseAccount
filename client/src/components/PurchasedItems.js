@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Table, Button } from 'reactstrap';
 import axios from 'axios';
-import { BrowserRouter as Link } from "react-router-dom";
 
 export default class PurchasedItems extends Component {
   constructor(){
@@ -13,17 +12,20 @@ export default class PurchasedItems extends Component {
   }
 
     componentDidMount() {
-      this.getItems()
-    }
-
-    getItems = () => {axios.get('/api/items')
+      axios.get('/api/items')
         .then(items => this.setState({ renderedItems: items.data }))
         .catch(err => console.log(err));
     }
 
+    // // Fetch Items
+    // getItems = () => {axios.get('/api/items')
+    //     .then(items => this.setState({ renderedItems: items.data }))
+    //     .catch(err => console.log(err));
+    // }
+
+    // Delete Item
     onClick = (e) => {
       axios.delete('/api/items/' + e.target.value)
-        .then(res => this.getItems())
         .catch(err => console.log(err))
     }
 
@@ -48,7 +50,7 @@ export default class PurchasedItems extends Component {
                     <td>{item.amount} yen</td>
                     <td>{item.type_name}</td>
                     <td>{item.date}</td>
-                    <td><Link to={`/detail/${item._id}`}>Detail</Link></td>
+                    <td><Button color="info" href={"/detail" + item.id}>Detail</Button></td>
                     <td><Button color="danger" onClick={this.onClick} value={item._id}>Delete</Button></td>
                   </tr>
                 ))}

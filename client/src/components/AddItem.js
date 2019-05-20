@@ -37,15 +37,17 @@ export default class AddItem extends React.Component {
 
   onChange(e){
       const { name, value } = e.target;
+      if(e){
       this.setState({
           [name]: value
         })
+    }
 
-      if(value === null || "" || 0){
-          this.setState = ({ invalid: true })
-      } else {
+    if(value === null || "" || 0){
+        this.setState = ({ invalid: true })
+    } else {
         this.setState = ({ valid: true })
-      }
+    }
   }
 
   onSubmit(e){
@@ -66,11 +68,16 @@ export default class AddItem extends React.Component {
   render() {
     return (
       <div>
-        <Button color="primary" onClick={this.toggle}>Add Item</Button>
+        <Button
+            color="primary"
+            onClick={this.toggle}
+            size="lg"
+            block
+        >Add Item</Button>
         
         <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
           <ModalHeader toggle={this.toggle}>Modal title</ModalHeader>
-          <Form  onSubmit={this.onSubmit}>
+          <Form>
             <ModalBody>  
                 <FormGroup>
                     <Label for="amount">Amount</Label>
@@ -118,7 +125,7 @@ export default class AddItem extends React.Component {
                 </FormGroup>  
                 </ModalBody>
             <ModalFooter>
-                <Button color="dark">Submit</Button>  
+                <Button color="dark" type="submit" onSubmit={this.onSubmit}>Submit</Button>  
                 <Button color="danger" onClick={this.toggle}>Cancel</Button>
             </ModalFooter>
             </Form>

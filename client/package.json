@@ -18,13 +18,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "proxy": {
-    "secure": true,
-    "target": {
-      "host": "https://localhost",
-      "port": 5000
-      }
-    },
+  "proxy": "http://localhost:5000",
   "eslintConfig": {
     "extends": "react-app"
   },
