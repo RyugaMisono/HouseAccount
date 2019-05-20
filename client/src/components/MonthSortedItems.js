@@ -4,13 +4,14 @@ import axios from 'axios';
 
 import EditItem from './EditItem'
 
-export default class PurchasedItems extends Component {
-  constructor(){
-    super()
+export default class MonthSortedItems extends Component {
+  constructor(props){
+    super(props)
 
     this.state = {
       renderedItems: [],
-      modal: false
+      modal: false,
+      month: this.props.date
     }
   }
 
@@ -63,7 +64,14 @@ export default class PurchasedItems extends Component {
             
               <tbody>
               
-                {this.state.renderedItems.map(item => (
+                {this.state.renderedItems.filter(item => {
+                    var date = new Date(item.date)
+                    var month = date.getMonth();
+                    if(month !== this.state.month){
+                        return false
+                    }
+                    return true
+                }).map(item => (
                   <tr key={item._id}>
                     <td>{item.amount} yen</td>
                     <td>{item.type_name}</td>

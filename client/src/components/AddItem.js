@@ -56,7 +56,11 @@ export default class AddItem extends React.Component {
       })
     }
 
-    if(value === "0" || ""){
+    // Identify whether it's int or not
+    var parsedValue = parseInt(value);
+
+     // If it's improper, emit error and  make the button disable
+    if(value === "0" || "" || !parsedValue){
       this.setState({
         invalid: true,
         disabled: true

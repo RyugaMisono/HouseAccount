@@ -3,7 +3,6 @@ import './App.css';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import AppNavbar from "./components/AppNavbar"
-import PurchasedItems from "./components/PurchasedItems"
 import AddItem from './components/AddItem'
 import EditItem from './components/EditItem'
 import MonthlyItems from './components/MonthlyItems';
@@ -14,7 +13,7 @@ function App() {
       <AppNavbar />
       <div style={{ width: "80%", margin: "10px auto" }}>
         <AddItem />
-        <PurchasedItems />
+        <MonthlyItems />
       </div>
 
       <Router>
