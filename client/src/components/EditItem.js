@@ -21,7 +21,7 @@ export default class EditItem extends React.Component {
       modal: false,
       valid: false,
       invalid: false,
-      disabled: true,
+      disabled: false,
       amount: this.props.item.amount,
       type_name: this.props.item.type_name,
       description: this.props.item.description,

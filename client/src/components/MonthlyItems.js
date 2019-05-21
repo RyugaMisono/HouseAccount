@@ -59,6 +59,22 @@ export default class MonthlyItems extends React.Component {
               July
             </NavLink>
           </NavItem>
+          <NavItem>
+            <NavLink
+              className={classnames({ active: this.state.activeTab === '5' })}
+              onClick={() => { this.toggle('5'); }}
+            >
+              August
+            </NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink
+              className={classnames({ active: this.state.activeTab === '6' })}
+              onClick={() => { this.toggle('6'); }}
+            >
+              September
+            </NavLink>
+            </NavItem>
         </Nav>
         <TabContent activeTab={this.state.activeTab}>
           <TabPane tabId="1">
@@ -72,6 +88,12 @@ export default class MonthlyItems extends React.Component {
           </TabPane>
           <TabPane tabId="4">
           <MonthSortedItems date={6} />
+          </TabPane>
+          <TabPane tabId="5">
+          <MonthSortedItems date={7} />
+          </TabPane>
+          <TabPane tabId="6">
+          <MonthSortedItems date={8} />
           </TabPane>
         </TabContent>
       </div>

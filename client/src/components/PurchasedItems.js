@@ -10,7 +10,8 @@ export default class PurchasedItems extends Component {
 
     this.state = {
       renderedItems: [],
-      modal: false
+      modal: false,
+      sum: 0
     }
   }
 
@@ -19,6 +20,8 @@ export default class PurchasedItems extends Component {
       axios.get('/api/items')
         .then(items => this.setState({ renderedItems: items.data }))
         .catch(err => console.log(err));
+
+      this.getSum();
     }
 
     // Toggle Modal
@@ -36,6 +39,13 @@ export default class PurchasedItems extends Component {
       this.toggle();
     }
 
+    // Sum amounts up
+    getSum = () => {
+      var amountMap = this.state.renderedItems.map(item => parseInt(item.amount));
+      const sum = amountMap.reduce((a,b) => a + b, 0)
+      return this.setState({ sum: sum })
+    }
+
   render() {
     return (
       <div>
@@ -48,8 +58,7 @@ export default class PurchasedItems extends Component {
             <Button color="danger" onClick={this.toggle} href="/">Close</Button>
           </ModalFooter>
         </Modal>
-
-        
+        <h2 style={{ fontSize:"20px" }}>You used <p style={{ fontSize:"40px", marginLeft: "10px" }}>{this.state.sum} yen</p></h2>
         <Table>
             <thead>
             <tr>

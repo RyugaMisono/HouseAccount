@@ -11,7 +11,8 @@ export default class MonthSortedItems extends Component {
     this.state = {
       renderedItems: [],
       modal: false,
-      month: this.props.date
+      month: this.props.date,
+      sum: 0
     }
   }
 
@@ -50,7 +51,7 @@ export default class MonthSortedItems extends Component {
           </ModalFooter>
         </Modal>
 
-        
+        <h2 style={{ fontSize:"20px" }}>On this month, you used <p style={{ fontSize:"40px", marginLeft: "10px" }}>{this.state.sum} yen</p></h2>
         <Table>
             <thead>
             <tr>
