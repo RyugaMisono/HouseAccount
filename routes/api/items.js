@@ -30,6 +30,7 @@ router.post("/:id", (req, res) => {
             item.description = req.body.description;
             item.amount = req.body.amount;
             item.type_name = req.body.type_name;
+            item.incomeBool = req.body.incomeBool;
 
             item.save().then(item => {
                 res.json(item);

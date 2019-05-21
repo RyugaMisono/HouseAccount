@@ -75,7 +75,7 @@ export default class PurchasedItems extends Component {
               
                 {this.state.renderedItems.map(item => (
                   <tr key={item._id}>
-                    <td>{item.amount} yen</td>
+                    <td style={item.incomebool ? {color:"green"} : {color:"black"}}>{item.amount} yen</td>
                     <td>{item.type_name}</td>
                     <td>{item.date}</td>
                     <td>{item.description}</td>
@@ -91,6 +91,7 @@ export default class PurchasedItems extends Component {
               </tbody>
             
         </Table>
+        
       </div>
     )
   }

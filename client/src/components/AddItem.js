@@ -11,6 +11,7 @@ import {
     FormText,
     Label,
     Input,
+    CustomInput
  } from 'reactstrap';
  import axios from 'axios'
 
@@ -24,11 +25,13 @@ export default class AddItem extends React.Component {
       disabled: true,
       amount: '',
       type_name: '',
-      description: ''
+      description: '',
+      incomeBool: false
     };
 
     this.onChange = this.onChange.bind(this);
     this.onAmountChange = this.onAmountChange.bind(this);
+    this.onCheck = this.onCheck.bind(this);
     this.toggle = this.toggle.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
@@ -74,14 +77,26 @@ export default class AddItem extends React.Component {
         disabled: false
       })
     }
-}
+  }
+
+  // Income or Expense
+  onCheck(e){
+    if(e){
+      this.setState(prevState => ({
+          incomeBool: !prevState.incomeBool
+        }))
+      }
+
+    console.log(this.state.incomeBool)
+  }
 
   // Post item with click
   onSubmit(){
       const newItem = {
         amount: this.state.amount,
         type_name: this.state.type_name,
-        description: this.state.description
+        description: this.state.description,
+        incomeBool: this.state.incomeBool
       }
 
       axios.post('/api/items', newItem)
@@ -118,6 +133,18 @@ export default class AddItem extends React.Component {
                     />
                     <FormFeedback>Type Proper Number!!</FormFeedback>
                     <FormText>only Numbers Accepted</FormText>
+                </FormGroup>
+                <FormGroup>
+                  <Label for="checkbox">Check if it's income</Label>
+                  <div>
+                    <CustomInput
+                      type="checkbox"
+                      id="exampleCustomradio"
+                      name="customradio"
+                      label="This is income"
+                      onClick={this.onCheck}
+                    />
+                  </div>
                 </FormGroup>
                 <FormGroup>
                     <Label for="types">Select Type</Label>

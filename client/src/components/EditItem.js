@@ -11,6 +11,7 @@ import {
     FormText,
     Label,
     Input,
+    CustomInput
  } from 'reactstrap';
  import axios from 'axios'
 
@@ -25,10 +26,12 @@ export default class EditItem extends React.Component {
       amount: this.props.item.amount,
       type_name: this.props.item.type_name,
       description: this.props.item.description,
+      incomeBool: this.props.item.incomeBool,
       id: this.props.item._id
     };
 
     this.onChange = this.onChange.bind(this);
+    this.onCheck = this.onCheck.bind(this);
     this.onAmountChange = this.onAmountChange.bind(this);
     this.toggle = this.toggle.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
@@ -75,14 +78,26 @@ export default class EditItem extends React.Component {
         disabled: false
       })
     }
-}
+  }
+
+  // Income or Expense
+  onCheck(e){
+    if(e){
+      this.setState(prevState => ({
+          incomeBool: !prevState.incomeBool
+        }))
+      }
+
+    console.log(this.state.incomeBool)
+  }
 
   // Update item
   onSubmit(){
       const updatedItem = {
         amount: this.state.amount,
         type_name: this.state.type_name,
-        description: this.state.description
+        description: this.state.description,
+        incomeBool: this.state.incomeBool
       }
 
       axios.post(`/api/items/${this.state.id}`, updatedItem)
@@ -119,6 +134,19 @@ export default class EditItem extends React.Component {
                     />
                     <FormFeedback>Type Proper Number!!</FormFeedback>
                     <FormText>only Numbers Accepted</FormText>
+                </FormGroup>
+                <FormGroup>
+                  <Label for="checkbox">Check if it's income</Label>
+                  <div>
+                    <CustomInput
+                      type="checkbox"
+                      id="exampleCustomradio"
+                      name="customradio"
+                      label="This is income"
+                      onClick={this.onCheck}
+                      checked={this.state.incomeBool}
+                    />
+                  </div>
                 </FormGroup>
                 <FormGroup>
                     <Label for="types">Select Type</Label>

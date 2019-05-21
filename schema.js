@@ -15,6 +15,9 @@ let Item = new Schema({
     },
     amount: {
         type: Number
+    },
+    incomeBool: {
+        type: Boolean
     }
 });
 
